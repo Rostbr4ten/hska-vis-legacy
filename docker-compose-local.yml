@@ -29,6 +29,10 @@ services:
             aliases:
                 - web-shop-db-image
 
+  category-service:
+
+  product-service:
+
 networks:
   local_dev_net:
     driver: bridge
