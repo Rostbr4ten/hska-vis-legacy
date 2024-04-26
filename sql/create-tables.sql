@@ -1,6 +1,6 @@
 CREATE DATABASE webshop;
 
-CREATE user 'webshopuser'@'%' IDENTIFIED BY '125ecf65adde7892bcd2655';
+CREATE user 'webshopuser'@'%' IDENTIFIED BY '240b2c6d58ff2ce2f508b49f';
 
 GRANT ALL on webshop.* to 'webshopuser'@'%';
 
