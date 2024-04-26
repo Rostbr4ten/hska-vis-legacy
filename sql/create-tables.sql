@@ -23,6 +23,12 @@ CREATE UNIQUE INDEX UK_mufchskagt7e1w4ksmt9lum5l ON customer (username ASC);
 
 CREATE INDEX FK74aoh99stptslhotgf41fitt0 ON customer (role ASC);
 
+insert into `role` (`level1`, `type`) values(0, 'admin');
+insert into `role` (`level1`, `type`) values(1, 'user');
+
+insert into `customer` (`name`, `lastname`, `password`, `username`, `role`) values('admin', 'admin', 'admin', 'admin', 1);
+
+
 CREATE TABLE product (
 	id INT NOT NULL AUTO_INCREMENT,
 	details VARCHAR(255),
