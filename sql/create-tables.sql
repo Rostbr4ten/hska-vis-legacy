@@ -6,9 +6,13 @@ GRANT ALL on webshop.* to 'webshopuser'@'%';
 
 USE webshop;
 
-CREATE TABLE category (
+CREATE TABLE customer (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
+	lastname VARCHAR(255) NOT NULL,
+	password VARCHAR(255) NOT NULL,
+	username VARCHAR(255) NOT NULL,
+	role INT NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -28,6 +32,27 @@ insert into `role` (`level1`, `type`) values(1, 'user');
 
 insert into `customer` (`name`, `lastname`, `password`, `username`, `role`) values('admin', 'admin', 'admin', 'admin', 1);
 
+create database category;
+
+create user 'categoryUser'@'%' identified by '74523a732be65aff';
+
+grant all on category.* to 'categoryUser'@'%';
+
+USE category;
+
+CREATE TABLE category (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+create database product;
+
+create user 'productUser'@'%' identified by 'ae4557bc8900ec';
+
+grant all on product.* to 'productUser'@'%';
+
+USE product;
 
 CREATE TABLE product (
 	id INT NOT NULL AUTO_INCREMENT,
@@ -35,16 +60,6 @@ CREATE TABLE product (
 	name VARCHAR(255),
 	price DOUBLE,
 	category_id INT,
-	PRIMARY KEY (id)
-) ENGINE=InnoDB;
-
-CREATE TABLE customer (
-	id INT NOT NULL AUTO_INCREMENT,
-	name VARCHAR(255) NOT NULL,
-	lastname VARCHAR(255) NOT NULL,
-	password VARCHAR(255) NOT NULL,
-	username VARCHAR(255) NOT NULL,
-	role INT NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
