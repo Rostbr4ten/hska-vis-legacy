@@ -1,3 +1,11 @@
+CREATE DATABASE webshop;
+
+CREATE user 'webshopuser'@'%' IDENTIFIED BY '125ecf65adde7892bcd2655';
+
+GRANT ALL on webshop.* to 'webshopuser'@'%';
+
+USE webshop;
+
 CREATE TABLE category (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
@@ -10,6 +18,10 @@ CREATE TABLE role (
 	type VARCHAR(255),
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
+
+CREATE UNIQUE INDEX UK_mufchskagt7e1w4ksmt9lum5l ON customer (username ASC);
+
+CREATE INDEX FK74aoh99stptslhotgf41fitt0 ON customer (role ASC);
 
 CREATE TABLE product (
 	id INT NOT NULL AUTO_INCREMENT,
@@ -29,9 +41,5 @@ CREATE TABLE customer (
 	role INT NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
-
-CREATE UNIQUE INDEX UK_mufchskagt7e1w4ksmt9lum5l ON customer (username ASC);
-
-CREATE INDEX FK74aoh99stptslhotgf41fitt0 ON customer (role ASC);
 
 CREATE INDEX FK1mtsbur82frn64de7balymq9s ON product (category_id ASC);
