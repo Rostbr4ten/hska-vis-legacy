@@ -45,6 +45,20 @@ services:
       - web-shop-db-image
 
   product-service:
+    build:
+      context: ../microservices-hka/product-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      MYSQL_HOST: web-shop-db-image
+      CATEGORY_ENDPOINT: category-service
+    networks:
+      local_dev_net:
+        aliases:
+          - product-service
+    depends_on:
+      - web-shop-db-image
 
 networks:
   local_dev_net:
