@@ -37,6 +37,7 @@ services:
       - "8080:8080"
     environment:
       MYSQL_HOST: web-shop-db-image
+      PRODUCT_ENDPOINT: product-service
     networks:
       local_dev_net:
         aliases:
