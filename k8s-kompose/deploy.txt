@@ -1,0 +1,12 @@
+kubectl apply -f category-service-deployment.yaml
+kubectl apply -f legacywebshop-deployment.yaml
+kubectl apply -f product-service-deployment.yaml
+kubectl apply -f web-shop-db-image-claim0-persistentvolumeclaim.yaml
+kubectl apply -f web-shop-db-image-deployment.yaml
+
+
+
+Commands:
+kubectl get pods
+kubectl delete --all pods
+kubectl apply -f microservices.yaml

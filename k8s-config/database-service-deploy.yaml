@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web-shop-db-image
+spec:
+  serviceName: "mysql"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-shop-db-image
+  template:
+    metadata:
+      labels:
+        app: web-shop-db-image
+    spec:
+      containers:
+      - name: web-shop-db-image
+        image: stumpfalexdockerka/hska-vis-legacy-web-shop-db-image:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-db-config
+              key: database-name
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-db-config
+              key: database-user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: webshop-db-secret
+              key: password
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        - name: init-scripts
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: init-scripts
+        configMap:
+          name: db-init-scripts
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-persistent-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-shop-db-image
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+  selector:
+    app: web-shop-db-image

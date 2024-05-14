@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.31.2 (a92241f79)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: legacywebshop
+  name: legacywebshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: legacywebshop
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.31.2 (a92241f79)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/hska-vis-legacy-local-dev-net: "true"
+        io.kompose.service: legacywebshop
+    spec:
+      containers:
+        - image: stumpfalexdockerka/hska-vis-legacy-legacywebshop:latest
+          name: legacywebshop
+          ports:
+            - containerPort: 8080
+              hostPort: 8888
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

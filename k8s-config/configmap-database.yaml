@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-db-config
+data:
+  database-name: "webshop"
+  database-user: "webshopuser"

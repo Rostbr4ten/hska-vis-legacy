@@ -1,0 +1,12 @@
+kubectl apply -f configmap-database.yaml
+kubectl apply -f database-service-deploy.yaml
+kubectl apply -f legacy-webshop-service-deploy.yaml
+kubectl apply -f category-service-deploy.yaml
+kubectl apply -f product-service-deploy.yaml
+
+kubectl get pods
+kubectl get statefulset
+kubectl logs <podname>
+kubectl delete pod <podname>
+
+kubectl exec -it web-shop-db-image-0 -- mysql -u root -p
