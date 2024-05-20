@@ -1,0 +1,73 @@
+nginx ingress aktivieren:
+minikube addons enable ingress
+minikube tunnel <- in admin shell immer an haben!
+
+kubectl get pods -n kube-system
+
+curl http://<ingress-ip>/products
+curl http://<ingress-ip>/categories
+
+kubectl logs ingress-nginx-controller-84df5799c-h4p7g -n ingress-nginx
+
+
+damit klappts: kubectl port-forward svc/product-service 8080:8080 -n default
+http://localhost:8081/products/1
+
+restart ingress 
+kubectl rollout restart deployment ingress-nginx-controller -n ingress-nginx
+
+kubectl run dns-test --image=busybox --restart=Never -- sleep 3600
+kubectl exec -it dns-test -- nslookup product-service
+kubectl delete pod dns-test
+
+Service discovery testen mit:
+kubectl exec -it dns-test -- wget -qO- product-service:8080/products/
+[{"id":1,"name":"Bleistift","price":1.99,"details":"Ein einfacher\nBleistift","categoryId":1},{"id":2,"name":"Kugelschreiber","price":1.99,"details":"schreibt","categoryId":1},{"id":3,"name":"Fensterreiniger","price":2.99,"details":"Wisch","categoryId":1}]
+kubectl exec -it dns-test -- wget -qO- category-service:8080/categories/
+[{"id":1,"name":"Schreibartikel"},{"id":2,"name":"Reinigungsartikel"}]
+
+Externe Anfragen ans kubernetes cluster testen mit, nutzt den ingress controller
+curl http://localhost/products/
+                                                                                                                                                                                                                                                StatusCode        : 200                                                                                                 StatusDescription :                                                                                                     Content           : [{"id":1,"name":"Bleistift","price":1.99,"details":"Ein einfacher\nBleistift","categoryId":1},{"id"
+                    :2,"name":"Kugelschreiber","price":1.99,"details":"schreibt","categoryId":1},{"id":3,"name":"Fenste
+                    rr...
+RawContent        : HTTP/1.1 200
+                    Transfer-Encoding: chunked
+                    Connection: keep-alive
+                    Pod: product-service-bbf85455b-jz6wx
+                    Content-Type: application/json
+                    Date: Mon, 20 May 2024 15:25:30 GMT
+
+                    [{"id":1,"name":"Bleisti...
+Forms             : {}
+Headers           : {[Transfer-Encoding, chunked], [Connection, keep-alive], [Pod, product-service-bbf85455b-jz6wx],
+                    [Content-Type, application/json]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 256
+
+
+curl http://localhost/categories/
+StatusCode        : 200
+StatusDescription :
+Content           : [{"id":1,"name":"Schreibartikel"},{"id":2,"name":"Reinigungsartikel"}]
+RawContent        : HTTP/1.1 200
+                    Transfer-Encoding: chunked
+                    Connection: keep-alive
+                    Pod: category-service-5fcb9486dd-td6v4
+                    Content-Type: application/json
+                    Date: Mon, 20 May 2024 15:25:36 GMT
+
+                    [{"id":1,"name":"Schre...
+Forms             : {}
+Headers           : {[Transfer-Encoding, chunked], [Connection, keep-alive], [Pod, category-service-5fcb9486dd-td6v4],
+                    [Content-Type, application/json]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 70
+
+

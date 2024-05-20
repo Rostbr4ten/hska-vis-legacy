@@ -31,6 +31,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8081
+    - port: 8080  # Externer Port, den der Service innerhalb des Clusters anbietet
+      targetPort: 8080  # Der Port des Containers
   selector:
     app: product-service
