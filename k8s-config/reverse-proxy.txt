@@ -70,4 +70,18 @@ Links             : {}
 ParsedHtml        : mshtml.HTMLDocumentClass
 RawContentLength  : 70
 
+Load Balancer Beweis:
+kubectl scale deployment product-service --replicas=3
+kubectl get pods -l app=product-service
+http://localhost/products/info
+Response from pod: product-service-bbf85455b-5mwhv
+Response from pod: product-service-bbf85455b-q27nx
+Response from pod: product-service-bbf85455b-jz6wx
+kubectl scale deployment product-service --replicas=1
 
+Pod löschen und outcome:
+kubectl get pods
+kubectl delete pod <pod-name>
+kubectl get pods
+
+Gelöschter Pod wird fast unmittelbar ersetzt. Kubernetes hält Anwendung aufrecht.
