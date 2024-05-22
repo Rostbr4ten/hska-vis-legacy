@@ -7,6 +7,10 @@ Nervende Warnung weg mit:
     docker context use default
 
 Secrets einspeisen:
+
+root: 
+    kubectl create secret generic mysql-secret --from-literal=password=c8de110f37300a53a971749
+
 webshop:
     kubectl create secret generic webshop-db-secret --from-literal=user=webshopuser
     kubectl create secret generic webshop-db-secret --from-literal=password=240b2c6d58ff2ce2f508b49f
@@ -32,9 +36,6 @@ products:
   user: cHJvZHVjdFVzZXI=
   password: YWU0NTU3YmM4OTAwZWM=
   dbname: cHJvZHVjdA==
-
-root: 
-    kubectl create secret generic mysql-secret --from-literal=password=c8de110f37300a53a971749
 
 Editieren möglich mit: 
     kubectl edit secret webshop-db-secret
@@ -122,3 +123,64 @@ Pod löschen und outcome:
     kubectl get pods
 
 Gelöschter Pod wird fast unmittelbar ersetzt. Kubernetes hält Anwendung aufrecht.
+
+NUN Istio ---- 
+
+---------------------- ISTIO ----------------------
+
+Aufgrund von Konflikten, den reverse Proxy deaktivieren:
+    minikube addons disable ingress
+
+Istio installieren: 
+    istioctl install --set profile=demo -y
+
+Namespace für automatische Istio Sidecar Injection konfigurieren:
+    kubectl label namespace default istio-injection=enabled
+
+Deployments neu starten, um Istio Sidecars zu injizieren:
+    kubectl rollout restart deployment
+
+Prometheus, Grafana und Kiali installieren
+cd istio
+cd samples
+cd addons
+
+kubectl apply -f prometheus.yaml
+kubectl apply -f grafana.yaml
+kubectl apply -f kiali.yaml
+
+Prometheus Zugriff per port forwading:
+    kubectl -n istio-system port-forward svc/prometheus 9090 -> http://localhost:9090
+
+Grafana Zugriff per port forwarding:
+    kubectl -n istio-system port-forward svc/grafana 3000 -> http://localhost:3000
+
+Kiali Zugriff per port forwarding:
+    kubectl -n istio-system port-forward svc/kiali 20001 -> http://localhost:20001
+
+Validierung ob alles läuft: 
+    kubectl get pods -n istio-system
+    kubectl get svc -n istio-system
+    kubectl get pods,services -n istio-system
+    kubectl describe pod <pod-name> -n istio-system
+    kubectl describe nodes
+    kubectl get nodes -o wide
+    kubectl describe node <node-name>
+    kubectl describe quota -n istio-system
+    kubectl describe limitrange -n istio-system
+
+Validierung der korrekten Zuweisung der Labels im Namespace:
+    kubectl get namespace -L istio-injection
+
+Bei Neustart des minikubes folgende Schritte beachten:
+    istioctl version -> istio noch da?
+    kubectl get namespace default --show-labels -> istio-injection=enabled noch in default? wenn nicht: 
+        kubectl label namespace default istio-injection=enabled
+    Wenn Änderung, dann: 
+        kubectl rollout restart deployment
+    Wenn hier: 
+        kubectl get pods,services -n istio-system
+        Prometheus, Grafana und Kiali fehlen, dann: 
+            kubectl apply -f samples/addons/prometheus.yaml
+            kubectl apply -f samples/addons/grafana.yaml
+            kubectl apply -f samples/addons/kiali.yaml
