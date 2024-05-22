@@ -85,3 +85,5 @@ kubectl delete pod <pod-name>
 kubectl get pods
 
 Gelöschter Pod wird fast unmittelbar ersetzt. Kubernetes hält Anwendung aufrecht.
+
+
