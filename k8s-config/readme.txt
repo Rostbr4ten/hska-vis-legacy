@@ -214,3 +214,18 @@ Testen mit:
     curl http://category-service:8080/categories/
 
 product-service:8080 ist nur intern bekannt
+
+Neu gebautes image zu dockerhub pushen:
+ ✔ Container hska-vis-legacy-web-shop-db-image-1  Running                                                          0.0s
+ ✔ Container hska-vis-legacy-product-service-1    Running                                                          0.0s
+ ✔ Container hska-vis-legacy-category-service-1   Running                                                          0.0s
+ ✔ Container hska-vis-legacy-legacywebshop-1      Started                                                          2.5s
+PS > docker login
+Authenticating with existing credentials...
+Login Succeeded
+PS > docker tag hska-vis-legacy-legacywebshop-1 stumpfalexdockerka/hska-vis-legacy-legacywebshop:latest
+Error response from daemon: No such image: hska-vis-legacy-legacywebshop-1:latest
+PS > docker tag hska-vis-legacy-legacywebshop stumpfalexdockerka/hska-vis-legacy-legacywebshop:latest
+PS >
+
+Dann ist es in Docker Desktop sichtbar, und bereit zum pushen
