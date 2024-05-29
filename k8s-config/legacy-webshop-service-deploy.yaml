@@ -18,6 +18,11 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        env:
+        - name: PRODUCT_ENDPOINT
+          value: "http://product-service:8080"
+        - name: CATEGORY_ENDPOINT
+          value: "http://category-service:8080"
 ---
 apiVersion: v1
 kind: Service

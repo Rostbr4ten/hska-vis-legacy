@@ -1,5 +1,7 @@
 Full guide to make the k8s cluster running. Sprung in k8s-config notwendig:
 
+Ggf: minikube delete
+
 Open Docker for Windows.
     minikube start --memory=2048 --cpus=2   \ Mehr Speicher hab ich lokal einfach nicht übrig...
 
@@ -184,3 +186,31 @@ Bei Neustart des minikubes folgende Schritte beachten:
             kubectl apply -f samples/addons/prometheus.yaml
             kubectl apply -f samples/addons/grafana.yaml
             kubectl apply -f samples/addons/kiali.yaml
+--------------------------------------------
+Wechsel von istio zurück zum reverse Proxy
+
+1. Uninstall istio and delete namespace: 
+    istioctl uninstall --purge
+    kubectl delete namespace istio-system
+
+2. istio namespace zurück zu default
+    kubectl label namespace default istio-injection-
+
+---------------------------------
+
+Zugriff auf den Webshop im k8s Cluster:
+http://localhost/EShop-1.0.0/
+
+----------------------------------
+Es werden intern andere ip namen verwendet als extern. Beispiel aus: 
+legacy webshop yaml file:
+angucken über:
+    kubectl get svc
+
+Testen mit:
+    kubectl run -it --rm --image=curlimages/curl tester -- sh
+    # Dann im Shell:
+    curl http://product-service:8080/products/
+    curl http://category-service:8080/categories/
+
+product-service:8080 ist nur intern bekannt
