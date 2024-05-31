@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: webshop-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webshop-routes
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - webshop-gateway
+  http:
+    - name: products-route
+      match:
+        - uri:
+            prefix: /products/
+      route:
+        - destination:
+            host: product-service
+            port:
+              number: 8080
+    - name: categories-route
+      match:
+        - uri:
+            prefix: /categories/
+      route:
+        - destination:
+            host: category-service
+            port:
+              number: 8080
+    - name: legacywebshop-route
+      match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: legacywebshop
+            port:
+              number: 8888
