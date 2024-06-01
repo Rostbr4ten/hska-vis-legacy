@@ -228,4 +228,8 @@ Error response from daemon: No such image: hska-vis-legacy-legacywebshop-1:lates
 PS > docker tag hska-vis-legacy-legacywebshop stumpfalexdockerka/hska-vis-legacy-legacywebshop:latest
 PS >
 
+PS > docker tag hska-vis-legacy-product-service stumpfalexdockerka/hska-vis-legacy-product-service:latest
+PS > docker tag hska-vis-legacy-category-service stumpfalexdockerka/hska-vis-legacy-category-service:latest
+PS >
+
 Dann ist es in Docker Desktop sichtbar, und bereit zum pushen
