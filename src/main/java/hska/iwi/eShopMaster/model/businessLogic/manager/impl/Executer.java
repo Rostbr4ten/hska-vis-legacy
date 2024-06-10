@@ -10,7 +10,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
-public class RESTHelper {
+public class Executer {
 
     public static String get(String endpoint) throws Exception {
     System.out.println("GET " + endpoint);

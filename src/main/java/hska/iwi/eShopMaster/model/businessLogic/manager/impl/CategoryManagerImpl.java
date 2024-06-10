@@ -10,9 +10,9 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.RESTHelper.delete;
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.RESTHelper.post;
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.RESTHelper.get;
+import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Executer.delete;
+import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Executer.post;
+import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Executer.get;
 
 public class CategoryManagerImpl implements CategoryManager {
     private final String categoryEndpoint = "http://category-service:8080/categories/";

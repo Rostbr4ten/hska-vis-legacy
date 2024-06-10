@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.RESTHelper.delete;
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.RESTHelper.post;
-import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.RESTHelper.get;
+import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Executer.delete;
+import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Executer.post;
+import static hska.iwi.eShopMaster.model.businessLogic.manager.impl.Executer.get;
 
 public class ProductManagerImpl implements ProductManager {
     private final String productEndpoint = "http://product-service:8080/products/";
